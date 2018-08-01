@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 // User pool information
 const region = "us-east-1";
-const poolId = "us-east-1_MsHScNijB";
+const poolId = "us-east-1_5L0ZBsiNq";
 const issuer = "https://cognito-idp." + region + ".amazonaws.com/" + poolId;
 
 // When verifying, we expect to use RS256, and that our issuer is correct
@@ -60,6 +60,9 @@ function findVerificationKey(token) {
     return (pemList) => {
 
         let decoded = jwt.decode(token, {complete: true});
+        if (!decoded) {
+            throw new Error("Unable to decode token");
+        }
         return Promise.resolve(pemList[decoded.header.kid]);
     };
 }
